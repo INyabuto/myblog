@@ -37,3 +37,19 @@ class Post(models.Model):
                              self.publish.strftime('%d'),
                              self.slug])
 
+
+# A model to store comments
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments')
+    name = models.CharField(max_length=80)
+    email = models.EmailField()
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+
+    class meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return 'comment by {} on {}'.format(self.name, self.post)
